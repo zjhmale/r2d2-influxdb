@@ -1,0 +1,13 @@
+[package]
+name = "r2d2-influxdb"
+version = "0.1.0"
+authors = ["zjhsdtc <zjhsdtc@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+r2d2 = "0.8"
+influxdb = "0.0.6"
+
+[dependencies.reqwest]
+version = "0.10"
+features = ["blocking", "json"]
