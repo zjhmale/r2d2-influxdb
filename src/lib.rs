@@ -65,16 +65,16 @@ impl InfluxDBConnectionManager {
     }
 }
 
-struct SimpleInfo {
-    url: String,
-    database: String,
+pub struct SimpleInfo {
+    pub url: String,
+    pub database: String,
 }
 
-struct AuthInfo {
-    url: String,
-    database: String,
-    username: String,
-    password: String,
+pub struct AuthInfo {
+    pub url: String,
+    pub database: String,
+    pub username: String,
+    pub password: String,
 }
 
 impl From<SimpleInfo> for InfluxDBConnectionInfo {

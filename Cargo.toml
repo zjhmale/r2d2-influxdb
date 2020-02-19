@@ -11,3 +11,8 @@ influxdb = "0.0.6"
 [dependencies.reqwest]
 version = "0.10"
 features = ["blocking", "json"]
+
+[[example]]
+name = "ping"
+path = "examples/ping.rs"
+
