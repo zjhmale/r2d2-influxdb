@@ -3,6 +3,12 @@ name = "r2d2-influxdb"
 version = "0.1.0"
 authors = ["zjhsdtc <zjhsdtc@gmail.com>"]
 edition = "2018"
+license = "MIT"
+description = "r2d2 connection pool protocol for InfluxDB"
+repository = "https://github.com/zjhmale/r2d2-influxdb"
+documentation = "https://docs.rs/crate/r2d2-influxdb"
+keywords = ["influxdb", "pool", "database", "r2d2"]
+include = ["src/**/*", "LICENSE", "Cargo.toml"]
 
 [dependencies]
 r2d2 = "0.8"
