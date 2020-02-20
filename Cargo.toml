@@ -16,3 +16,6 @@ features = ["blocking", "json"]
 name = "ping"
 path = "examples/ping.rs"
 
+[[example]]
+name = "read_write"
+path = "examples/read_write.rs"

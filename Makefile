@@ -12,3 +12,4 @@ install:
 
 example:
 	cargo run --example ping
+	cargo run --example read_write
