@@ -1,3 +1,5 @@
+//! Synchronize version of influxdb::Client.
+
 use influxdb::{Client, Error, Query, QueryTypes};
 use reqwest::blocking as rb;
 use reqwest::blocking::Client as ReqwestClient;
@@ -8,6 +10,8 @@ pub struct SyncClient {
     client: Client,
 }
 
+/// A `r2d2` compatible InfluxDB Client,
+/// simply get rid of async/await
 impl SyncClient {
     pub fn new(client: Client) -> Self {
         SyncClient { client }

@@ -1,7 +1,9 @@
+//! [r2d2](https://github.com/sfackler/r2d2) connection pool protocol for InfluxDB.
+
 pub extern crate influxdb;
 pub extern crate r2d2;
 
-mod ext;
+pub mod ext;
 
 use ext::SyncClient;
 use influxdb::{Client, Error as InfluxDBError};
@@ -11,6 +13,7 @@ use std::error;
 use std::error::Error as _StdError;
 use std::fmt;
 
+/// An extension for influxdb::Error for the Error trait
 #[derive(Debug)]
 pub enum Error {
     Other(InfluxDBError),
@@ -18,11 +21,7 @@ pub enum Error {
 
 impl fmt::Display for Error {
     fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
-        #[allow(deprecated)] // `cause` is replaced by `Error:source` in 1.33
-        match self.cause() {
-            Some(cause) => write!(fmt, "{}: {}", self.description(), cause),
-            None => write!(fmt, "{}", self.description()),
-        }
+        write!(fmt, "{}", self.description())
     }
 }
 
@@ -65,11 +64,13 @@ impl InfluxDBConnectionManager {
     }
 }
 
+/// InfluxDB connection info
 pub struct SimpleInfo {
     pub url: String,
     pub database: String,
 }
 
+/// InfluxDB connection info with Authenticator
 pub struct AuthInfo {
     pub url: String,
     pub database: String,
@@ -101,6 +102,42 @@ impl From<AuthInfo> for InfluxDBConnectionInfo {
     }
 }
 
+/// An `r2d2::ConnectionManager` for `InfluxDB::Client`s.
+///
+/// ## Example
+///
+
+/// ```rust
+/// extern crate r2d2_influxdb;
+///
+/// use r2d2_influxdb::{r2d2, InfluxDBConnectionManager, SimpleInfo};
+/// use std::thread;
+///
+/// fn main() {
+///     let info = SimpleInfo {
+///         url: "http://localhost:8086".into(),
+///         database: "test".into(),
+///     };
+///     let manager = InfluxDBConnectionManager::new(info);
+///     let pool = r2d2::Pool::builder().build(manager).unwrap();
+///
+///     let mut handles = vec![];
+///
+///     for _i in 0..10i32 {
+///         let pool = pool.clone();
+///         handles.push(thread::spawn(move || {
+///             let conn = pool.get().unwrap();
+///             let reply = conn.ping();
+///             println!("{:?}", reply);
+///             assert!(reply.is_ok())
+///         }));
+///     }
+///
+///     for h in handles {
+///         h.join().unwrap();
+///     }
+/// }
+/// ```
 impl r2d2::ManageConnection for InfluxDBConnectionManager {
     type Connection = SyncClient;
     type Error = Error;
