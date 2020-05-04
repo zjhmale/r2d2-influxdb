@@ -15,7 +15,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-r2d2_influxdb = "0.1.0"
+r2d2-influxdb = "0.1.0"
 ```
 
 Then check out the examples below.
